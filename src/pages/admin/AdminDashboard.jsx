@@ -1,3 +1,4 @@
+import UserLayout from "../../layouts/UserLayout";
 import {
   Box,
   Typography,
@@ -7,46 +8,50 @@ import {
   Stack,
   Button,
   LinearProgress,
+  Chip,
 } from "@mui/material";
 import AdminLayout from "../../layouts/AdminLayout";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import PeopleIcon from "@mui/icons-material/People";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 
-const KpiCard = ({ title, value, trend, color }) => (
-  <Card sx={{ borderRadius: 0, height: "100%" }}>
+import PeopleIcon from "@mui/icons-material/People";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FlagIcon from "@mui/icons-material/Flag";
+import ChatIcon from "@mui/icons-material/Chat";
+import BarChartIcon from "@mui/icons-material/BarChart";
+
+/* ================= KPI CARD ================= */
+
+const KpiCard = ({ title, value, link }) => (
+  <Card sx={{ borderRadius: 0, cursor: "pointer" }} onClick={() => (window.location.href = link)}>
     <CardContent>
       <Typography fontSize={13} color="text.secondary">
         {title}
       </Typography>
-
       <Typography variant="h5" fontWeight={700} mt={1}>
         {value}
       </Typography>
-
-      <Stack direction="row" spacing={1} alignItems="center" mt={1}>
-        <TrendingUpIcon fontSize="small" color={color} />
-        <Typography fontSize={13} color={`${color}.main`}>
-          {trend}
-        </Typography>
-      </Stack>
-
-      <Button size="small" sx={{ mt: 2 }}>
-        Details
-      </Button>
     </CardContent>
   </Card>
 );
 
-const ActionCard = ({ icon, title, description, buttonText, color, link }) => (
+/* ================= MANAGEMENT CARD ================= */
+const ManagementCard = ({
+  icon,
+  title,
+  description,
+  stats,
+  button,
+  link,
+}) => (
   <Card sx={{ height: "100%" }}>
     <CardContent>
       <Stack direction="row" spacing={2} alignItems="center" mb={2}>
         <Box
           sx={{
-            width: 48,
-            height: 48,
-            bgcolor: `${color}.light`,
+            width: 46,
+            height: 46,
+            bgcolor: "grey.100",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -57,185 +62,191 @@ const ActionCard = ({ icon, title, description, buttonText, color, link }) => (
         <Typography fontWeight={600}>{title}</Typography>
       </Stack>
 
-      <Typography color="text.secondary" mb={3}>
+      <Typography fontSize={13} color="text.secondary" mb={2}>
         {description}
       </Typography>
 
-      <Button
-        variant="contained"
-        color={color}
-        fullWidth
-        href={link}
-      >
-        {buttonText}
+      <Stack direction="row" spacing={1} flexWrap="wrap" mb={3}>
+        {stats.map((s) => (
+          <Chip
+            key={s.label}
+            label={`${s.value} ${s.label}`}
+            size="small"
+            variant="outlined"
+          />
+        ))}
+      </Stack>
+
+      <Button variant="contained" fullWidth href={link}>
+        {button}
       </Button>
     </CardContent>
   </Card>
 );
 
+/* ================= DASHBOARD ================= */
 export default function AdminDashboard() {
   return (
+
     <AdminLayout>
-      <Box sx={{ p: 3 }}>
-        {/* HEADER */}
-        <Typography variant="h4" fontWeight={700} mb={3} color="primary.main">
-          Dashboard
-        </Typography>
+      <UserLayout>
+        <Box sx={{ p: 3 }}>
+          {/* HEADER */}
+          <Typography variant="h4" fontWeight={700} mb={3}>
+            Admin Dashboard
+          </Typography>
 
-        {/* KPI ROW */}
-        <Grid container spacing={3} mb={4}>
-          <Grid item xs={12} md={4}>
-            <KpiCard
-              title="Total Sales"
-              value="$350K"
-              trend="+10.4%"
-              color="success"
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <KpiCard
-              title="Total Orders"
-              value="10.7K"
-              trend="+14.4%"
-              color="success"
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <KpiCard
-              title="Pending & Canceled"
-              value="603"
-              trend="-14.4%"
-              color="error"
-            />
-          </Grid>
-        </Grid>
-
-        {/* MAIN CONTENT */}
-        <Grid container spacing={4}>
-          {/* WEEKLY REPORT */}
-          <Grid item xs={12} md={8}>
-            <Card>
-              <CardContent>
-                <Typography fontWeight={600} mb={2}>
-                  Report for this week
-                </Typography>
-
-                <Grid container spacing={3} mb={3}>
-                  <Grid item xs={4}>
-                    <Typography fontWeight={700}>52k</Typography>
-                    <Typography fontSize={13} color="text.secondary">
-                      Customers
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography fontWeight={700}>3.5k</Typography>
-                    <Typography fontSize={13} color="text.secondary">
-                      Products
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography fontWeight={700}>250k</Typography>
-                    <Typography fontSize={13} color="text.secondary">
-                      Revenue
-                    </Typography>
-                  </Grid>
-                </Grid>
-
-                <Box
-                  sx={{
-                    height: 220,
-                    bgcolor: "grey.100",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  Weekly Sales Chart
-                </Box>
-              </CardContent>
-            </Card>
+          {/* ================= SUMMARY METRICS ================= */}
+          <Grid container spacing={3} mb={4}>
+            <Grid item xs={12} md={2.4}>
+              <KpiCard title="Total Users" value="1,245" link="/admin/users" />
+            </Grid>
+            <Grid item xs={12} md={2.4}>
+              <KpiCard title="Active Items" value="4,680" link="/admin/products" />
+            </Grid>
+            <Grid item xs={12} md={2.4}>
+              <KpiCard title="Active Bookings" value="1,120" link="/admin/bookings" />
+            </Grid>
+            <Grid item xs={12} md={2.4}>
+              <KpiCard title="Pending Complaints" value="96" link="/admin/complaints" />
+            </Grid>
+            <Grid item xs={12} md={2.4}>
+              <KpiCard title="Flagged Items" value="37" link="/admin/products?flagged=true" />
+            </Grid>
           </Grid>
 
-          {/* RIGHT PANEL */}
-          <Grid item xs={12} md={4}>
-            <Card sx={{ mb: 4 }}>
-              <CardContent>
-                <Typography fontWeight={600}>
-                  Users in last 30 minutes
-                </Typography>
-                <Typography variant="h5" fontWeight={700} mt={1}>
-                  21.5K
-                </Typography>
+          {/* ================= ACTIVITY & COMPLAINT STATUS ================= */}
+          <Grid container spacing={4} mb={4}>
+            <Grid item xs={12} md={8} width={500}>
+              <Card>
+                <CardContent>
+                  <Typography fontWeight={600} mb={2}>
+                    Platform Activity Overview
+                  </Typography>
+                  <Typography fontSize={13} color="text.secondary" mb={3}>
+                    User activity, bookings, uploads & chat interactions
+                  </Typography>
 
-                <Box mt={3}>
-                  <LinearProgress
-                    variant="determinate"
-                    value={70}
-                    sx={{ height: 8 }}
-                  />
-                </Box>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent>
-                <Typography fontWeight={600} mb={2}>
-                  Sales by Country
-                </Typography>
-
-                {[
-                  { country: "United States", value: "30k", percent: 80 },
-                  { country: "Brazil", value: "30k", percent: 65 },
-                  { country: "Australia", value: "25k", percent: 55 },
-                ].map((item) => (
-                  <Box key={item.country} mb={2}>
-                    <Stack direction="row" justifyContent="space-between">
-                      <Typography fontSize={14}>{item.country}</Typography>
-                      <Typography fontSize={14} fontWeight={600}>
-                        {item.value}
-                      </Typography>
-                    </Stack>
-                    <LinearProgress
-                      variant="determinate"
-                      value={item.percent}
-                      sx={{ height: 6 }}
-                    />
+                  <Box
+                    sx={{
+                      height: 220,
+                      bgcolor: "grey.100",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    Activity Chart / Timeline
                   </Box>
-                ))}
+                </CardContent>
+              </Card>
+            </Grid>
 
-                <Button fullWidth sx={{ mt: 2 }}>
-                  View Insight
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+            <Grid item xs={12} md={4} width={300}>
+              <Card>
+                <CardContent>
+                  <Typography fontWeight={600} mb={2}>
+                    Complaint Status
+                  </Typography>
 
-        {/* MANAGEMENT SECTION */}
-        <Grid container spacing={4} mt={4}>
-          <Grid item xs={12} md={6}>
-            <ActionCard
-              title="User Management"
-              description="View, block or manage platform users."
-              buttonText="Manage Users"
-              icon={<PeopleIcon color="primary" />}
-              color="primary"
-              link="/admin/users"
-            />
+                  <Stack spacing={2}>
+                    <Box>
+                      <Typography fontSize={13}>Active</Typography>
+                      <LinearProgress value={40} variant="determinate" />
+                    </Box>
+                    <Box>
+                      <Typography fontSize={13}>In Process</Typography>
+                      <LinearProgress value={55} variant="determinate" color="warning" />
+                    </Box>
+                    <Box>
+                      <Typography fontSize={13}>Resolved</Typography>
+                      <LinearProgress value={80} variant="determinate" color="success" />
+                    </Box>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <ActionCard
-              title="Complaint Management"
-              description="Review and resolve reported complaints."
-              buttonText="View Complaints"
-              icon={<ReportProblemIcon color="error" />}
-              color="error"
-              link="/admin/complaints"
-            />
+          {/* ================= MANAGEMENT SHORTCUTS ================= */}
+          <Grid container spacing={4} alignItems="stretch">
+            {[
+              {
+                icon: <PeopleIcon />,
+                title: "User Management",
+                description: "View, block, or manage platform users and stores.",
+                button: "Manage Users",
+                link: "/admin/users",
+                stats: [
+                  { label: "Users", value: 1245 },
+                  { label: "Stores", value: 312 },
+                ],
+              },
+              {
+                icon: <InventoryIcon />,
+                title: "Item Moderation",
+                description: "Monitor items, disable listings, and handle flagged content.",
+                button: "Manage Items",
+                link: "/admin/products",
+                stats: [
+                  { label: "Items", value: 4680 },
+                  { label: "Flagged", value: 37 },
+                ],
+              },
+              {
+                icon: <ReportProblemIcon />,
+                title: "Complaint Handling",
+                description: "Resolve, reject, or inquire borrower & lender disputes.",
+                button: "View Complaints",
+                link: "/admin/complaints",
+                stats: [
+                  { label: "Pending", value: 42 },
+                  { label: "Resolved", value: 318 },
+                ],
+              },
+              {
+                icon: <ShoppingCartIcon />,
+                title: "Transactions",
+                description: "Monitor payments, refunds, and booking transactions.",
+                button: "View Transactions",
+                link: "/admin/transactions",
+                stats: [
+                  { label: "Completed", value: 980 },
+                  { label: "Refunds", value: 24 },
+                ],
+              },
+              {
+                icon: <ChatIcon />,
+                title: "Messaging Oversight",
+                description: "View complaint-related chats in read-only mode.",
+                button: "Open Chats",
+                link: "/admin/chats",
+                stats: [
+                  { label: "Active", value: 84 },
+                  { label: "Flagged", value: 7 },
+                ],
+              },
+              {
+                icon: <BarChartIcon />,
+                title: "Reports & Analytics",
+                description: "Analyze platform usage and download reports.",
+                button: "View Reports",
+                link: "/admin/reports",
+                stats: [
+                  { label: "Top Stores", value: 10 },
+                  { label: "Top Items", value: 20 },
+                ],
+              },
+            ].map((item) => (
+              <Grid item xs={12} md={4} key={item.title}>
+                <ManagementCard {...item} />
+              </Grid>
+            ))}
           </Grid>
-        </Grid>
-      </Box>
+
+        </Box>
+      </UserLayout>
     </AdminLayout>
+
   );
 }
