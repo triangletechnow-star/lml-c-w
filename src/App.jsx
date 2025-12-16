@@ -1,12 +1,11 @@
-import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
-import theme from "./theme/muiTheme";
 import AuthProvider from "./context/AuthContext";
+import ThemeProvider from "./context/ThemeContext";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <BrowserRouter>
         <AuthProvider>
           <AppRoutes />
