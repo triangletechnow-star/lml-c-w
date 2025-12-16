@@ -66,7 +66,7 @@ export default function StoreDashboard() {
           />
         </Grid>
 
-        <Box mt={8}>
+        <Box mt={8} width="60%">
           <MonthlyReport data={monthlyData} />
         </Box>
       </Grid>

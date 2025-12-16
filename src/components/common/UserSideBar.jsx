@@ -15,12 +15,12 @@ const menuItems = [
     },
     {
         label: "Users",
-        path: "/displayUsers",
+        path: "/users",
         icon: <PeopleIcon />,
     },
     {
         label: "Listings",
-        path: "/items",
+        path: "/listings",
         icon: <Inventory2Icon />,
     },
     {
@@ -85,6 +85,11 @@ function UserSideBar() {
                             primaryTypographyProps={{
                                 fontSize: 15,
                                 fontWeight: 500,
+                            }}
+                            sx={{
+                                "&:hover": {
+                                    bgcolor: "#fff",
+                                },
                             }}
                         />
                     </ListItemButton>

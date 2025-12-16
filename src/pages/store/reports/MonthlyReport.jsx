@@ -1,19 +1,6 @@
 import React from "react";
-import {
-    Card,
-    Box,
-    Typography,
-    MenuItem,
-    Select,
-} from "@mui/material";
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    Tooltip,
-    ResponsiveContainer,
-} from "recharts";
+import { Card, Box, Typography, MenuItem, Select } from "@mui/material";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const MonthlyReport = ({ data }) => {
     return (
