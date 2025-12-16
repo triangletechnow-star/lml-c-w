@@ -10,8 +10,9 @@ import {
   useTheme,
   useMediaQuery,
   Drawer,
+  IconButton,
 } from "@mui/material";
-
+import CloseIcon from "@mui/icons-material/Close";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
@@ -25,7 +26,7 @@ const menu = [
   { text: "Complaints", icon: <ReportProblemIcon />, path: "/admin/complaints" },
 ];
 
-export default function AdminSidebar({ open, onClose }) {
+export default function AdminSidebar({ open, onClose, onToggle }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -33,39 +34,57 @@ export default function AdminSidebar({ open, onClose }) {
     <Box
       sx={{
         width: 260,
-        height: "100%",
+        height: "100vh",
         bgcolor: theme.palette.mode === "dark" ? "background.paper" : "primary.main",
         display: "flex",
         flexDirection: "column",
+        position: "relative",
       }}
     >
+      {/* Header with Close Button */}
       <Box
         sx={{
           p: 3,
           display: "flex",
           alignItems: "center",
-          gap: 1.5,
+          justifyContent: "space-between",
           bgcolor: theme.palette.mode === "dark" ? "primary.dark" : "primary.dark",
         }}
       >
-        <AdminPanelSettingsIcon
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <AdminPanelSettingsIcon
+            sx={{
+              fontSize: 32,
+              color: "white",
+            }}
+          />
+          <Typography
+            variant="h6"
+            fontWeight={700}
+            sx={{ color: "white" }}
+          >
+            Admin Panel
+          </Typography>
+        </Box>
+        
+        {/* Close Button */}
+        <IconButton
+          onClick={isMobile ? onClose : onToggle}
           sx={{
-            fontSize: 32,
             color: "white",
+            "&:hover": {
+              bgcolor: "rgba(255, 255, 255, 0.1)",
+            },
           }}
-        />
-        <Typography
-          variant="h6"
-          fontWeight={700}
-          sx={{ color: "white" }}
         >
-          Admin Panel
-        </Typography>
+          <CloseIcon />
+        </IconButton>
       </Box>
 
       <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.12)" }} />
 
-      <List sx={{ flexGrow: 1, py: 2 }}>
+      {/* Navigation Menu */}
+      <List sx={{ flexGrow: 1, py: 2, overflow: "auto" }}>
         {menu.map((item) => (
           <ListItemButton
             key={item.text}
@@ -115,6 +134,7 @@ export default function AdminSidebar({ open, onClose }) {
         ))}
       </List>
 
+      {/* Footer */}
       <Box
         sx={{
           p: 2,
@@ -145,6 +165,7 @@ export default function AdminSidebar({ open, onClose }) {
         sx={{
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
+            width: 260,
           },
         }}
       >
@@ -153,5 +174,18 @@ export default function AdminSidebar({ open, onClose }) {
     );
   }
 
-  return sidebarContent;
+  return (
+    <Box
+      sx={{
+        position: "fixed",
+        left: 0,
+        top: 0,
+        zIndex: 1200,
+        transform: open ? "translateX(0)" : "translateX(-100%)",
+        transition: "transform 0.3s ease-in-out",
+      }}
+    >
+      {sidebarContent}
+    </Box>
+  );
 }
