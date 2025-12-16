@@ -1,3 +1,4 @@
+import logo from "../../assets/logo.jpeg";
 import {
   AppBar,
   Toolbar,
@@ -17,10 +18,12 @@ function Navbar() {
       <Toolbar sx={{ gap: 2 }}>
 
         {/* Left Menu Icon */}
-        <IconButton edge="start">
-          <MenuIcon />
-        </IconButton>
-
+         <Box
+            component="img"
+            src={logo} // <-- Replace with your logo path
+            alt="Let Me Lend"
+            sx={{ height: 40, width: "auto" }}
+          />
         {/* Logo / Title */}
         <Typography
           variant="h6"

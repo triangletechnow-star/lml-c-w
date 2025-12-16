@@ -1,20 +1,24 @@
-import UserSideBar from "../components/common/UserSideBar";
-import Navbar from "../components/layout/Navbar";
-import { Container, Box } from "@mui/material";
+import { Box } from "@mui/material";
+import AdminSidebar from "../components/layout/Adminsidebar";
 
 export default function AdminLayout({ children }) {
   return (
-    <>
-      <Navbar />
-      <Box sx={{ display: "flex" }}>
-        <Box sx={{ width: 250, bgcolor: "#f1f5f9", height: "100vh", mb: 4 }}>
-          <Box>
-            <UserSideBar/>
-          </Box>
-        </Box>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      {/* Sidebar */}
+      <AdminSidebar />
 
-        <Container sx={{ mt: 4 }}>{children}</Container>
+      {/* Main Content */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          bgcolor: "#F8FAFC",
+          p: 3,
+          overflow: "auto",
+        }}
+      >
+        {children} {/* ✅ THIS IS CRITICAL */}
       </Box>
-    </>
+    </Box>
   );
 }
