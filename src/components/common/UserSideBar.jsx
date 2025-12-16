@@ -15,12 +15,12 @@ const menuItems = [
     },
     {
         label: "Users",
-        path: "/users",
+        path: "/displayUsers",
         icon: <PeopleIcon />,
     },
     {
         label: "Listings",
-        path: "/listings",
+        path: "/items",
         icon: <Inventory2Icon />,
     },
     {
